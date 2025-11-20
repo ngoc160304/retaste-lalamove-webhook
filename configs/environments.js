@@ -27,7 +27,8 @@ const env = {
   SEPAY_MERCHANT_ID: process.env.SEPAY_MERCHANT_ID || '',
   LALAMOVE_API_KEY: process.env.LALAMOVE_API_KEY || '',
   LALAMOVE_BASE_URL: process.env.LALAMOVE_BASE_URL || '',
-  LALAMOVE_API_SECRET: process.env.LALAMOVE_API_SECRET || ''
+  LALAMOVE_API_SECRET: process.env.LALAMOVE_API_SECRET || '',
+  BUILD_MODE: process.env.BUILD_MODE || 'dev',
 };
 
 module.exports = env;

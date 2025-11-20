@@ -1,4 +1,4 @@
-const whitelist = [];
+const whitelist = [''];
 const env = require( './environments');
 
 const corsOptions = {
