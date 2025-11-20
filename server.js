@@ -1,7 +1,11 @@
 const express = require('express');
 const env = require('./configs/environments');
 require('./configs/database');
+require('dotenv').config()
+
 const cors = require('cors');
+
+const port = process.env.PORT || 9000 
 
 const corsOptions = require('./configs/cors');
 const app = express();
@@ -28,6 +32,6 @@ app.post(`${api}/order/confirm`, (req, res) => {
   })
 })
 
-app.listen(env.APP_PORT, env.APP_HOST, () => {
+app.listen(port, () => {
   console.log(`App is running on http://${env.APP_HOST}:${env.APP_PORT} !`);
 });
