@@ -56,11 +56,13 @@ app.post(`${api}/order/confirm`,async (req, res) => {
       orderId: '3368997893234430870'
     })
     const order = mongoose.connection.db.collection('orders');
-    await order.updateOne({
+    const update = await order.updateOne({
       _id: getDelivery.orderId
     }, {
       orderStatus: 'success'
     })
+    console.log(getDelivery);
+    console.log(update);
   }
   res.json({
     mess: 'Server is running'
