@@ -5,7 +5,7 @@ require('dotenv').config()
 const CryptoJS = require('crypto-js');
 const cors = require('cors');
 
-const port = process.env.PORT || 9000 
+const port = process.env.PORT || 9000
 
 const corsOptions = require('./configs/cors');
 const { default: axios } = require('axios');
@@ -43,15 +43,15 @@ app.get('/', (req, res) => {
 })
 
 
-app.post(`${api}/order/confirm`,async (req, res) => {
+app.post(`${api}/order/confirm`, async (req, res) => {
   console.log('req.body', req.body);
-  const {data:{
+  const { data: {
     order: {
       status,
       orderId,
     }
-  }} = req.body;
-  if(status && status === 'COMPLETED') {
+  } } = req.body;
+  if (status && status === 'COMPLETED') {
     const delivery = mongoose.connection.db.collection('deliveries');
     const getDelivery = await delivery.findOne({
       orderDeliveryId: orderId
@@ -60,7 +60,7 @@ app.post(`${api}/order/confirm`,async (req, res) => {
     const update = await order.updateOne({
       _id: getDelivery.orderId
     }, {
-      orderStatus: 'success'
+      $set: { orderStatus: 'success' }
     })
     console.log(getDelivery);
     console.log(update);
