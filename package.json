@@ -10,5 +10,8 @@
   },
   "scripts": {
     "start": "nodemon server.js"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.1"
   }
 }

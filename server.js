@@ -21,8 +21,6 @@ const api = '/api/v1';
 const API_KEY = env.LALAMOVE_API_KEY;
 const API_SECRET = env.LALAMOVE_API_SECRET;
 
-console.log(API_KEY);
-console.log(API_SECRET)
 const body = JSON.stringify({
   data: {
     url: "https://retaste-lalamove-webhook.onrender.com/api/v1/order/confirm"
@@ -45,16 +43,25 @@ app.get('/', (req, res) => {
 })
 
 
-app.post(`${api}/order/confirm`, (req, res) => {
+app.post(`${api}/order/confirm`,async (req, res) => {
   console.log('req.body', req.body);
-  const collection = mongoose.connection.db.collection('users');
-  collection.updateOne({
-    _id: new mongoose.Types.ObjectId('6903137f746d11d1f753a4d5')
-  },{
-    $set: {
-      isDeleted: true
+  const {data:{
+    order: {
+      status
     }
-  })
+  }} = req.body
+  if(status === 'COMPLETED') {
+    const delivery = mongoose.connection.db.collection('deliveries');
+    const getDelivery = await delivery.findOne({
+      orderId: '3368997893234430870'
+    })
+    const order = mongoose.connection.db.collection('orders');
+    await order.updateOne({
+      _id: getDelivery.orderId
+    }, {
+      orderStatus: 'success'
+    })
+  }
   res.json({
     mess: 'Server is running'
   })
