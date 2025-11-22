@@ -47,13 +47,14 @@ app.post(`${api}/order/confirm`,async (req, res) => {
   console.log('req.body', req.body);
   const {data:{
     order: {
-      status
+      status,
+      orderId,
     }
   }} = req.body
   if(status === 'COMPLETED') {
     const delivery = mongoose.connection.db.collection('deliveries');
     const getDelivery = await delivery.findOne({
-      orderId: '3368997893234430870'
+      orderDeliveryId: orderId
     })
     const order = mongoose.connection.db.collection('orders');
     const update = await order.updateOne({
