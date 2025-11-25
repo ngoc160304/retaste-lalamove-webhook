@@ -53,7 +53,7 @@ app.post(`${api}/order/confirm`, async (req, res) => {
       status,
       orderId,
     }
-  } } = req.body;
+  } } = req.body || {};
   if (status && status === 'COMPLETED') {
     const delivery = mongoose.connection.db.collection('deliveries');
     const getDelivery = await delivery.findOne({
