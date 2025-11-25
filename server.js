@@ -73,6 +73,9 @@ app.post(`${api}/order/confirm`, async (req, res) => {
       mess: 'Server is running'
     })
   }
+  res.json({
+    mess: 'Server is running'
+  })
 })
 
 app.listen(port, () => {
