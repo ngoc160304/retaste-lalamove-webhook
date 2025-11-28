@@ -78,9 +78,6 @@ app.post(`${api}/order/confirm`, async (req, res) => {
         $set: { orderStatus: 'out_for_delivery' }
       })
     }
-    res.json({
-      mess: 'Server is running'
-    })
   }
   res.json({
     mess: 'Server is running'
