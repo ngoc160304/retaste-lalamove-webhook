@@ -48,15 +48,10 @@ app.get('/', (req, res) => {
 
 app.post(`${api}/order/confirm`, async (req, res) => {
   console.log('req.body', req.body);
-  const status = req.body?.order?.status || null;
-  console.log(status)
+  const status = req.body?.data?.order?.status || null;
+  const orderId = req.body?.data?.order?.orderId || null;
+
   if(Object.keys(req.body).length > 0) {
-    const { data: {
-      order: {
-        orderId,
-      }
-    } } = req.body || {};
-    const status = req.body?.order?.status || null;
     if (status && status === 'COMPLETED') {
       const delivery = mongoose.connection.db.collection('deliveries');
       const getDelivery = await delivery.findOne({
@@ -77,13 +72,11 @@ app.post(`${api}/order/confirm`, async (req, res) => {
         orderDeliveryId: orderId
       })
       const order = mongoose.connection.db.collection('orders');
-      const update = await order.updateOne({
+      await order.updateOne({
         _id: getDelivery.orderId
       }, {
         $set: { orderStatus: 'out_for_delivery' }
       })
-      console.log(getDelivery);
-      console.log(update);
     }
     res.json({
       mess: 'Server is running'
