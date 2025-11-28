@@ -86,9 +86,7 @@ app.post(`${api}/order/confirm`, async (req, res) => {
 
 app.post(`${api}/order/payment`, async (req, res) => {
   console.log('Webhook payment connect success !');
-  if(req.body) {
-    console.log(req.body)
-  }
+  console.log('req.body payment', req.body);
   res.json({
     mess: 'Webhook payment connect success !'
   })
