@@ -48,13 +48,15 @@ app.get('/', (req, res) => {
 
 app.post(`${api}/order/confirm`, async (req, res) => {
   console.log('req.body', req.body);
+  const status = req.body?.order?.status || null;
+  console.log(status)
   if(Object.keys(req.body).length > 0) {
     const { data: {
       order: {
-        status,
         orderId,
       }
     } } = req.body || {};
+    const status = req.body?.order?.status || null;
     if (status && status === 'COMPLETED') {
       const delivery = mongoose.connection.db.collection('deliveries');
       const getDelivery = await delivery.findOne({
@@ -65,6 +67,20 @@ app.post(`${api}/order/confirm`, async (req, res) => {
         _id: getDelivery.orderId
       }, {
         $set: { orderStatus: 'success' }
+      })
+      console.log(getDelivery);
+      console.log(update);
+    }
+    if (status && status === 'PICKED_UP') {
+      const delivery = mongoose.connection.db.collection('deliveries');
+      const getDelivery = await delivery.findOne({
+        orderDeliveryId: orderId
+      })
+      const order = mongoose.connection.db.collection('orders');
+      const update = await order.updateOne({
+        _id: getDelivery.orderId
+      }, {
+        $set: { orderStatus: 'out_for_delivery' }
       })
       console.log(getDelivery);
       console.log(update);
@@ -80,6 +96,9 @@ app.post(`${api}/order/confirm`, async (req, res) => {
 
 app.post(`${api}/order/payment`, async (req, res) => {
   console.log('Webhook payment connect success !');
+  if(req.body) {
+    console.log(req.body)
+  }
   res.json({
     mess: 'Webhook payment connect success !'
   })
