@@ -78,6 +78,13 @@ app.post(`${api}/order/confirm`, async (req, res) => {
   })
 })
 
+app.post(`${api}/order/payment`, async (req, res) => {
+  console.log('Webhook payment connect success !');
+  res.json({
+    mess: 'Webhook payment connect success !'
+  })
+})
+
 app.listen(port, () => {
   console.log(`App is running on http://${env.APP_HOST}:${env.APP_PORT} !`);
 });
