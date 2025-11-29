@@ -63,7 +63,7 @@ app.post(`${api}/order/confirm`, async (req, res) => {
       }, {
         $set: { 
           orderStatus: 'success',
-          paymentStatus: 'success'
+          paymentStatus: 'paid'
         }
       })
       console.log(getDelivery);
@@ -99,7 +99,7 @@ app.post(`${api}/order/payment`, async (req, res) => {
       orderNumber: orderNumber
     }, {
       $set: { 
-        paymentStatus: 'success'
+        paymentStatus: 'paid'
       }
     })
   }
