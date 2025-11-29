@@ -61,7 +61,10 @@ app.post(`${api}/order/confirm`, async (req, res) => {
       const update = await order.updateOne({
         _id: getDelivery.orderId
       }, {
-        $set: { orderStatus: 'success' }
+        $set: { 
+          orderStatus: 'success',
+          paymentStatus: 'success'
+        }
       })
       console.log(getDelivery);
       console.log(update);
@@ -86,7 +89,18 @@ app.post(`${api}/order/confirm`, async (req, res) => {
 
 app.post(`${api}/order/payment`, async (req, res) => {
   console.log('Webhook payment connect success !');
-  console.log('req.body payment', req.body);
+  const orderStatus = req.body?.order?.order_status || null;
+  console.log(orderStatus)
+  if(orderStatus === 'CAPTURED') {
+    const order = mongoose.connection.db.collection('orders');
+    await order.updateOne({
+      _id: getDelivery.orderId
+    }, {
+      $set: { 
+        paymentStatus: 'success'
+      }
+    })
+  }
   res.json({
     mess: 'Webhook payment connect success !'
   })
