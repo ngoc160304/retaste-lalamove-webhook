@@ -89,6 +89,7 @@ app.post(`${api}/order/confirm`, async (req, res) => {
 
 app.post(`${api}/order/payment`, async (req, res) => {
   console.log('Webhook payment connect success !');
+  console.log('data payment', req.body);
   const orderStatus = req.body?.order?.order_status || null;
   const orderNumber = req.body?.order?.order_invoice_number || null;
   console.log(orderStatus);
