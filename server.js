@@ -90,11 +90,12 @@ app.post(`${api}/order/confirm`, async (req, res) => {
 app.post(`${api}/order/payment`, async (req, res) => {
   console.log('Webhook payment connect success !');
   const orderStatus = req.body?.order?.order_status || null;
-  console.log(orderStatus)
+  const orderNumber = req.body?.order?.order_invoice_number || null;
+  console.log(orderStatus);
   if(orderStatus === 'CAPTURED') {
     const order = mongoose.connection.db.collection('orders');
     await order.updateOne({
-      _id: getDelivery.orderId
+      orderNumber: orderNumber
     }, {
       $set: { 
         paymentStatus: 'success'
